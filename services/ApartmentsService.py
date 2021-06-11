@@ -27,8 +27,11 @@ class ApartmentsService:
 
     def get_apartments(self, mongo):
         apartments = mongo.db.Apartments.find()
-        result = dumps(apartments)
-        return result
+        if(apartments.retrieved == 0):
+            return "No apartments"
+        else:
+            result = dumps(apartments)
+            return result
 
     def get_tenant_apartment(self, id, mongo):
         apartment = mongo.db.Apartments.find({"tenantId": ObjectId(id)})

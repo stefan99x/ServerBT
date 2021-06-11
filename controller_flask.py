@@ -1,11 +1,19 @@
+
 from flask import Flask, jsonify, request
 from flask_pymongo import PyMongo
 from bson.json_util import dumps
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash
+import os 
 
-from services.ApartmentsService import ApartmentsService
+# print(os.getcwd())
+# path = "/home/ubuntu/Projects/ServerBT/controllers"
+# os.chdir(path)
+
+# print(os.getcwd())
+
 from services.InjuriesService import InjuryService
+from services.ApartmentsService import ApartmentsService
 from services.TenantsService import TenantsService
 
 app = Flask(__name__)

@@ -1,15 +1,14 @@
-from controllers.controller_flask import not_found
 from json import dumps
 from bson.objectid import ObjectId
 from flask.json import jsonify
 
 
 class ApartmentsService:
-    def add_apartment(request, mongo):
+    def add_apartment(self, request, mongo):
         _json = request.json
-        _floor = _json["floor"]
-        _number = _json["number"]
-        _tenantId = _json["tenantId"]
+        _floor = _json['floor']
+        _number = _json['number']
+        _tenantId = _json['tenantId']
 
         if _floor and _number and _tenantId and request.method == "POST":
             mongo.db.Apartments.insert(
@@ -20,18 +19,18 @@ class ApartmentsService:
                 }
             )
 
-            response = jsonify("Apartment Added Created")
-            response.status_code = 200
-            return response
+            resp = jsonify("Apartment Added Created")
+            resp.status_code = 200
+            return resp
         else:
-            return not_found()
+            return 400
 
-    def get_apartments(mongo):
+    def get_apartments(self, mongo):
         apartments = mongo.db.Apartments.find()
         result = dumps(apartments)
         return result
 
-    def get_tenant_apartment(id, mongo):
+    def get_tenant_apartment(self, id, mongo):
         apartment = mongo.db.Apartments.find({"tenantId": ObjectId(id)})
         result = dumps(apartment)
         return result

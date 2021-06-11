@@ -1,13 +1,12 @@
 from json import dumps
 
 from bson.objectid import ObjectId
-from controllers.controller_flask import not_found
 from flask.json import jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class TenantsService:
-    def add_tenant(request, mongo):
+    def add_tenant(self, request, mongo):
         _json = request.json
         _email = _json["email"]
         _firstName = _json["firstName"]
@@ -32,25 +31,25 @@ class TenantsService:
             response.status_code = 200
             return response
         else:
-            return not_found()
+            return 400
 
-    def get_tenants(mongo):
+    def get_tenants(self, mongo):
         tenants = mongo.db.Tenants.find()
         result = dumps(tenants)
         return result
 
-    def get_tenant(mongo, id):
+    def get_tenant(self, mongo, id):
         tenant = mongo.db.Tenants.find({"_id": ObjectId(id)})
         result = dumps(tenant)
         return result
 
-    def delete_tenant(mongo, id):
+    def delete_tenant(self, mongo, id):
         mongo.db.Tenants.delete_one({"id": ObjectId(id)})
         response = jsonify("Tenant deleted successfully")
         response.status_code = 200
         return response
 
-    def update_tenant(mongo, request, id):
+    def update_tenant(self, mongo, request, id):
         _id = id
         _json = request.json
         _firstName = _json["firstName"]
@@ -60,12 +59,12 @@ class TenantsService:
         _age = _json["age"]
 
         if (
-            _firstName
-            and _lastName
-            and _email
-            and _password
-            and _age
-            and request.method == "PUT"
+                _firstName
+                and _lastName
+                and _email
+                and _password
+                and _age
+                and request.method == "PUT"
         ):
             _hashed_password = generate_password_hash(_password)
 
@@ -85,6 +84,5 @@ class TenantsService:
             response = jsonify("Update successfully")
             response.status_code = 200
             return response
-
         else:
-            return not_found()
+            return 400

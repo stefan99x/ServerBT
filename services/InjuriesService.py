@@ -1,12 +1,11 @@
 from json import dumps
 
 from bson.objectid import ObjectId
-from controllers.controller_flask import not_found
 from flask.json import jsonify
 
 
 class InjuryService:
-    def add_injury(request, mongo):
+    def add_injury(self, request, mongo):
         _json = request.json
         _bodyPartId = _json["bodyPartId"]
         _tenantId = _json["tenantId"]
@@ -25,25 +24,25 @@ class InjuryService:
             response.status_code = 200
             return response
         else:
-            return not_found()
+            return 400
 
-    def get_injuries(mongo):
+    def get_injuries(self, mongo):
         injuries = mongo.db.Injuries.find()
         result = dumps(injuries)
         return result
 
-    def get_tenant_injuries(mongo, id):
+    def get_tenant_injuries(self, mongo, id):
         injuries = mongo.db.Injuries.find({"tenantId": ObjectId(id)})
         result = dumps(injuries)
         return result
 
-    def delete_injury(mongo, id):
+    def delete_injury(self, mongo, id):
         mongo.db.Injuries.delete_one({"id": ObjectId(id)})
         response = jsonify("Injury deleted successfully")
         response.status_code = 200
         return response
 
-    def update_injury(request, mongo, id):
+    def update_injury(self, request, mongo, id):
         _id = id
         _json = request.json
         _bodyPartId = _json["bodyPartId"]
@@ -68,4 +67,4 @@ class InjuryService:
             return response
 
         else:
-            return not_found()
+            return 400

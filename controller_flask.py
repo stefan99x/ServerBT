@@ -4,13 +4,6 @@ from flask_pymongo import PyMongo
 from bson.json_util import dumps
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash
-import os 
-
-# print(os.getcwd())
-# path = "/home/ubuntu/Projects/ServerBT/controllers"
-# os.chdir(path)
-
-# print(os.getcwd())
 
 from services.InjuriesService import InjuryService
 from services.ApartmentsService import ApartmentsService

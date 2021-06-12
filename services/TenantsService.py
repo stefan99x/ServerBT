@@ -1,4 +1,5 @@
 from json import dumps
+from bson import json_util
 
 from bson.objectid import ObjectId
 from flask.json import jsonify
@@ -35,16 +36,16 @@ class TenantsService:
 
     def get_tenants(self, mongo):
         tenants = mongo.db.Tenants.find()
-        result = dumps(tenants)
+        result = json_util.dumps(tenants)
         return result
 
     def get_tenant(self, mongo, id):
         tenant = mongo.db.Tenants.find({"_id": ObjectId(id)})
-        result = dumps(tenant)
+        result = json_util.dumps(tenant)
         return result
 
     def delete_tenant(self, mongo, id):
-        mongo.db.Tenants.delete_one({"id": ObjectId(id)})
+        mongo.db.Tenants.delete_one({"_id": ObjectId(id)})
         response = jsonify("Tenant deleted successfully")
         response.status_code = 200
         return response

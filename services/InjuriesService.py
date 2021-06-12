@@ -1,5 +1,6 @@
 from json import dumps
 from bson import json_util
+import json
 
 from bson.objectid import ObjectId
 from flask.json import jsonify
@@ -7,7 +8,7 @@ from flask.json import jsonify
 
 class InjuryService:
     def add_injury(self, request, mongo):
-        _json = request.json
+        _json = json.loads(request.data)
         _bodyPartId = _json["bodyPartId"]
         _tenantId = _json["tenantId"]
         _description = _json["description"]
@@ -44,10 +45,12 @@ class InjuryService:
         return response
 
     def update_injury(self, request, mongo, id):
-        _id = id
-        _json = request.json
+        _json = json.loads(request.data)
+        _id = _json["_id"]
         _bodyPartId = _json["bodyPartId"]
+        _bodyPartName = _json["bodyPartName"]
         _tenantId = _json["tenantId"]
+        _tenantName = _json["tenantName"]
         _description = _json["description"]
         print(request.json)
         if _bodyPartId and _tenantId and request.method == "PUT":
@@ -57,8 +60,10 @@ class InjuryService:
                 {
                     "$set": {
                         "bodyPartId": _bodyPartId,
+                        "bodyPartName": _bodyPartName,
                         "tenantId": _tenantId,
                         "description": _description,
+                        "tenantName": _tenantName,
                     }
                 },
             )

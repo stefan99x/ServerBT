@@ -1,3 +1,6 @@
+import json
+from os import error
+from bson import objectid
 from passlib.hash import pbkdf2_sha256
 from bson import json_util
 
@@ -7,7 +10,7 @@ from flask.json import jsonify
 
 class TenantsService:
     def add_tenant(self, request, mongo):
-        _json = request.json
+        _json = json.loads(request.data)
         _email = _json["email"]
         _firstName = _json["firstName"]
         _lastName = _json["lastName"]
@@ -15,16 +18,25 @@ class TenantsService:
         _password = _json["password"]
         
 
+
         if _email and _password and request.method == "POST":
             _hashed_password = pbkdf2_sha256.encrypt(_password)
-
-            mongo.db.Tenants.insert(
+            
+            tenantId = mongo.db.Tenants.insert(
                 {
                     "firstName": _firstName,
                     "lastName": _lastName,
                     "email": _email,
                     "password": _hashed_password,
                     "age": _age,
+                }
+            )
+
+            mongo.db.Apartments.insert(
+                {
+                    "tenantId": tenantId.inserted_id,
+                    "floor":0,
+                    "number": 0,
                 }
             )
 
@@ -52,7 +64,7 @@ class TenantsService:
 
     def update_tenant(self, mongo, request, id):
         _id = id
-        _json = request.json
+        _json = json.loads(request.data)
         _firstName = _json["firstName"]
         _lastName = _json["lastName"]
         _email = _json["email"]

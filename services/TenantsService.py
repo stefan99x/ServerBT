@@ -1,9 +1,8 @@
-from json import dumps
+from passlib.hash import pbkdf2_sha256
 from bson import json_util
 
 from bson.objectid import ObjectId
 from flask.json import jsonify
-from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class TenantsService:
@@ -14,9 +13,10 @@ class TenantsService:
         _lastName = _json["lastName"]
         _age = _json["age"]
         _password = _json["password"]
+        
 
         if _email and _password and request.method == "POST":
-            _hashed_password = generate_password_hash(password=_password)
+            _hashed_password = pbkdf2_sha256.encrypt(_password)
 
             mongo.db.Tenants.insert(
                 {
@@ -67,7 +67,7 @@ class TenantsService:
                 and _age
                 and request.method == "PUT"
         ):
-            _hashed_password = generate_password_hash(_password)
+            _hashed_password = pbkdf2_sha256.hash(_password)
 
             mongo.db.Tenants.update_one(
                 {"_id": ObjectId(_id["$oid"]) if "$oid" in _id else ObjectId(_id)},

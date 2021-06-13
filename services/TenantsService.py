@@ -22,7 +22,7 @@ class TenantsService:
         if _email and _password and request.method == "POST":
             _hashed_password = pbkdf2_sha256.encrypt(_password)
             
-            tenantId = mongo.db.Tenants.insert(
+            tenantId = mongo.db.Tenants.insert_one(
                 {
                     "firstName": _firstName,
                     "lastName": _lastName,
@@ -32,7 +32,7 @@ class TenantsService:
                 }
             )
 
-            mongo.db.Apartments.insert(
+            mongo.db.Apartments.insert_one(
                 {
                     "tenantId": tenantId.inserted_id,
                     "floor":0,

@@ -57,7 +57,7 @@ def login():
         return {
             "token": JWTUtils.encode_token(
                 jwtUtils, user[0]["_id"]["$oid"], user[0]["email"]
-            ).decode(),
+            ),
             "firstName": user[0]["firstName"],
             "lastName": user[0]["lastName"],
             "age": user[0]["age"],

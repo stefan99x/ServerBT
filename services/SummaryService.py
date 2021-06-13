@@ -6,7 +6,7 @@ class SummaryService:
         numberOfInjuriesCount = mongo.db.Injuries.find().count()
         totalTenantsCount = mongo.db.Tenants.find().count()
         onlineTenantsCount = (
-            mongo.db.TenantStatus.find({"statusName": "ON (TRAPPED BUT SAFE)"}).count()
+            mongo.db.TenantStatus.find({"statusName": "ON"}).count()
             + mongo.db.TenantStatus.find({"statusName": "INJURED"}).count()
         )
         statusUNKNOWNCount = mongo.db.TenantStatus.find(

@@ -16,12 +16,10 @@ class TenantsService:
         _lastName = _json["lastName"]
         _age = _json["age"]
         _password = _json["password"]
-        
-
 
         if _email and _password and request.method == "POST":
             _hashed_password = pbkdf2_sha256.encrypt(_password)
-            
+
             tenantId = mongo.db.Tenants.insert_one(
                 {
                     "firstName": _firstName,
@@ -32,10 +30,19 @@ class TenantsService:
                 }
             )
 
+            mongo.db.TeantsStatus.insert_one(
+                {
+                    "tenantId": tenantId.inserted_id,
+                    "tenantName": _firstName + _lastName,
+                    "statusId": "60dac20652b08a49ac3be440",
+                    "statusName": "UNKNOWN",
+                }
+            )
+
             mongo.db.Apartments.insert_one(
                 {
                     "tenantId": tenantId.inserted_id,
-                    "floor":0,
+                    "floor": 0,
                     "number": 0,
                 }
             )
@@ -72,12 +79,12 @@ class TenantsService:
         _age = _json["age"]
 
         if (
-                _firstName
-                and _lastName
-                and _email
-                and _password
-                and _age
-                and request.method == "PUT"
+            _firstName
+            and _lastName
+            and _email
+            and _password
+            and _age
+            and request.method == "PUT"
         ):
             _hashed_password = pbkdf2_sha256.hash(_password)
 

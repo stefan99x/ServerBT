@@ -16,6 +16,22 @@ class InjuryService:
         _description = _json["description"]
 
         if _bodyPartId and _tenantId and request.method == "POST":
+
+            injuries = mongo.db.Injuries.find({"tenantId": _tenantId})
+            result = json_util.dumps(injuries)
+            if result.count > 0:
+                mongo.db.Injuries.update_one(
+                    {"tenantId": _tenantId},
+                    {
+                        "$set":{
+                            "statusId":"60dac1d852b08a49ac3be43e",
+                            "statusName":"INJURED"
+                        }
+                    }
+                )
+            
+
+
             mongo.db.Injuries.insert(
                 {
                     "bodyPartId": _bodyPartId,

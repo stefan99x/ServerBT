@@ -10,7 +10,9 @@ class InjuryService:
     def add_injury(self, request, mongo):
         _json = json.loads(request.data)
         _bodyPartId = _json["bodyPartId"]
+        _bodyPartName = _json["bodyPartName"]
         _tenantId = _json["tenantId"]
+        _tenantName = _json["tenantName"]
         _description = _json["description"]
 
         if _bodyPartId and _tenantId and request.method == "POST":
@@ -19,6 +21,8 @@ class InjuryService:
                     "bodyPartId": _bodyPartId,
                     "tenantId": _tenantId,
                     "description": _description,
+                    "tenantName": _tenantName,
+                    "bodyPartName": _bodyPartName,
                 }
             )
 

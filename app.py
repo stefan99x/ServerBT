@@ -350,28 +350,28 @@ def get_status_NOT_IN_THE_BUILDING():
 @app.route("/messages", methods=["GET"])
 @cross_origin()
 def get_messages():
-    try:
-        token = request.headers.get("Authorization").split(" ")[-1]
-    except Exception as ex:
-        return {"error": "Please login"}, 401
-    try:
-        user = JWTUtils.decode_token(jwtUtils, token)
-    except Exception as ex:
-        return {"error": str(ex)}, 401
+    # try:
+    #     token = request.headers.get("Authorization").split(" ")[-1]
+    # except Exception as ex:
+    #     return {"error": "Please login"}, 401
+    # try:
+    #     user = JWTUtils.decode_token(jwtUtils, token)
+    # except Exception as ex:
+    #     return {"error": str(ex)}, 401
     return messagesService.get_messages(mongo)
 
 
 @app.route("/messages", methods=["POST"])
 @cross_origin()
 def post_message():
-    try:
-        token = request.headers.get("Authorization").split(" ")[-1]
-    except Exception as ex:
-        return {"error": "Please login"}, 401
-    try:
-        user = JWTUtils.decode_token(jwtUtils, token)
-    except Exception as ex:
-        return {"error": str(ex)}, 401
+    # try:
+    #     token = request.headers.get("Authorization").split(" ")[-1]
+    # except Exception as ex:
+    #     return {"error": "Please login"}, 401
+    # try:
+    #     user = JWTUtils.decode_token(jwtUtils, token)
+    # except Exception as ex:
+    #     return {"error": str(ex)}, 401
     return messagesService.post_message(request, mongo)
 
 

@@ -21,6 +21,6 @@ class MessagesService:
             }
         )
 
-        response = jsonify("Account Created")
+        response = jsonify("Message Posted")
         response.status_code = 200
         return response

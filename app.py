@@ -277,6 +277,20 @@ def get_summary():
     return summaryService.get_summary(mongo)
 
 
+@app.route("/status/tenant/<id>", methods=["GET"])
+@cross_origin()
+def get_status_tenant(id):
+    try:
+        token = request.headers.get("Authorization").split(" ")[-1]
+    except Exception as ex:
+        return {"error": "Please login"}, 401
+    try:
+        user = JWTUtils.decode_token(jwtUtils, token)
+    except Exception as ex:
+        return {"error": str(ex)}, 401
+    return statusService.get_status_tenant(mongo, id)
+
+
 @app.route("/status/ON", methods=["GET"])
 @cross_origin()
 def get_status_ON():

@@ -32,7 +32,7 @@ class TenantsService:
 
             mongo.db.TeantsStatus.insert_one(
                 {
-                    "tenantId": tenantId.inserted_id,
+                    "tenantId": tenantId.inserted_id.str,
                     "tenantName": _firstName + _lastName,
                     "statusId": "60dac20652b08a49ac3be440",
                     "statusName": "UNKNOWN",
@@ -41,7 +41,7 @@ class TenantsService:
 
             mongo.db.Apartments.insert_one(
                 {
-                    "tenantId": tenantId.inserted_id,
+                    "tenantId": tenantId.inserted_id.str,
                     "floor": 0,
                     "number": 0,
                 }

@@ -21,3 +21,8 @@ class StatusService:
         status = mongo.db.TenantStatus.find({"statusName": "NOT IN THE BUILDING"})
         result = json_util.dumps(status)
         return result
+
+    def get_status_tenant(self, mongo, id):
+        status = mongo.db.TenantStatus.find({"tenantId": id})
+        result = json_util.dumps(status)
+        return result
